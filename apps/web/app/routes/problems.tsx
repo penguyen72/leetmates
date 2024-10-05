@@ -1,3 +1,8 @@
 export function Problems() {
-  return <h1>List of problems</h1>;
+  return (
+    <div>
+      <h1>List of problems</h1>
+      <p>Problem</p>
+    </div>
+  );
 }

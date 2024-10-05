@@ -8,9 +8,15 @@
     "install:web": "npm install --workspace=@leetmates/web",
     "dev:web": "npm run dev --workspace=@leetmates/web",
     "dev": "turbo run dev",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "apps/web/**/*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "devDependencies": {
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "turbo": "^2.1.3"
   },
   "packageManager": "npm@10.0.0",
