@@ -10,6 +10,13 @@ import {
 import Markdown from 'react-markdown';
 
 import { Button } from '../components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 
 type CodeProps = React.ComponentPropsWithoutRef<'code'>;
 
@@ -36,14 +43,14 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setIdx((idx - 1) % problems.length)}
+            onClick={() => setIdx(Math.abs((idx - 1) % problems.length))}
           >
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setIdx((idx + 1) % problems.length)}
+            onClick={() => setIdx(Math.abs((idx + 1) % problems.length))}
           >
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
@@ -76,8 +83,7 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
           },
         }}
       >
-        Given the `head` of a singly linked list, reverse the list, and return
-        _the reversed list_.
+        {problems[idx].description}
       </Markdown>
     </div>
   );
@@ -87,8 +93,19 @@ export default function EditorLayout() {
   const [players] = useState(['Player 1', 'Player 2', 'Player 3']);
 
   const [problems] = useState<Problem[]>([
-    { title: 'Reverse a Linked List', solved: true },
-    { title: 'Invert a Binary Tree', solved: false },
+    {
+      title: 'Reverse a Linked List',
+      solved: true,
+      description:
+        'Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.',
+      tags: ['Linked List'],
+    },
+    {
+      title: 'Invert a Binary Tree',
+      solved: false,
+      description: '',
+      tags: ['Binary Search Tree'],
+    },
   ]);
 
   return (
@@ -125,6 +142,23 @@ export default function EditorLayout() {
             overviewRulerBorder: false,
           }}
         />
+        <div className="flex justify-between pt-3">
+          <div>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="python3">Python3</SelectItem>
+                <SelectItem value="c++">C++</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex flex-row gap-2">
+            <Button variant="secondary">Run</Button>
+            <Button>Submit</Button>
+          </div>
+        </div>
       </div>
 
       {/* Players Panel */}
