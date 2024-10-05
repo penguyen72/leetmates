@@ -7,8 +7,11 @@ import {
   CircleIcon,
   CheckCircledIcon,
 } from '@radix-ui/react-icons';
+import Markdown from 'react-markdown';
 
 import { Button } from '../components/ui/button';
+
+type CodeProps = React.ComponentPropsWithoutRef<'code'>;
 
 function ProblemPanel({ problems }: { problems: Problem[] }) {
   const [idx, setIdx] = useState(0);
@@ -59,6 +62,23 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
           )}
         </div>
       </div>
+
+      <Markdown
+        components={{
+          code(props: CodeProps) {
+            const { children } = props;
+
+            return (
+              <code className="bg-zinc-200 py-0.5 px-1 rounded-sm">
+                {children}
+              </code>
+            );
+          },
+        }}
+      >
+        Given the `head` of a singly linked list, reverse the list, and return
+        _the reversed list_.
+      </Markdown>
     </div>
   );
 }
