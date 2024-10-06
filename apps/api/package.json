@@ -1,0 +1,8 @@
+{
+  "name": "@leetmates/api",
+  "scripts": {
+    "dev": "go run cmd/server/main.go",
+    "build": "go build -o dist/server cmd/server/main.go",
+    "start": "go run dist/server"
+  }
+}
