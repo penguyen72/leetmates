@@ -9,7 +9,7 @@ import { Button } from "./ui/button"
 
 export function SideBar() {
   return (
-    <aside className="w-60">
+    <aside className="w-60 overflow-scroll">
       <div className="flex flex-col p-4">
         <div className="flex gap-2 items-center">
           <img className="size-8" src="/logo.png" alt="logo" />

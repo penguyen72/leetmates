@@ -43,7 +43,7 @@ export default function Index() {
         </div>
         <Input className="m-4" placeholder="Message #Problems" />
       </main>
-      <aside className="w-72">
+      <aside className="w-72 overflow-scroll">
         <div className="flex flex-col p-4">
           <p className="text-sm font-semibold">ACTIVE ROOMS</p>
           <div className="flex flex-col gap-2 mb-4 mt-2">
