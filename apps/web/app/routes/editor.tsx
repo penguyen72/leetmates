@@ -1,39 +1,40 @@
-import { useState, useEffect } from 'react';
-import { Editor } from '@monaco-editor/react';
-import type { Problem } from '../types/types';
+import { useState, useEffect } from "react"
+import { Editor } from "@monaco-editor/react"
+import type { Problem } from "../types/types"
 import {
   ChevronRightIcon,
   ChevronLeftIcon,
   CircleIcon,
   CheckCircledIcon,
-} from '@radix-ui/react-icons';
-import Markdown from 'react-markdown';
+} from "@radix-ui/react-icons"
+import Markdown from "react-markdown"
 
-import { Button } from '../components/ui/button';
+import { Button } from "../components/ui/button"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../components/ui/select';
+} from "../components/ui/select"
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 
-type CodeProps = React.ComponentPropsWithoutRef<'code'>;
+type CodeProps = React.ComponentPropsWithoutRef<"code">
 
 function ProblemPanel({ problems }: { problems: Problem[] }) {
-  const [idx, setIdx] = useState(0);
+  const [idx, setIdx] = useState(0)
 
   useEffect(() => {
-    console.log(idx);
-    console.log(problems[idx]);
-  }, [idx, problems]);
+    console.log(idx)
+    console.log(problems[idx])
+  }, [idx, problems])
 
   return (
     <div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col">
           <h1 className="font-bold text-xl">
-            {problems.length > 0 ? problems[idx].title : ''}
+            {problems.length > 0 ? problems[idx].title : ""}
           </h1>
           <h3 className="text-zinc-400 text-sm">
             Question {idx + 1} of {problems.length}
@@ -73,108 +74,118 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
       <Markdown
         components={{
           code(props: CodeProps) {
-            const { children } = props;
+            const { children } = props
 
             return (
               <code className="bg-zinc-200 py-0.5 px-1 rounded-sm">
                 {children}
               </code>
-            );
+            )
           },
         }}
       >
         {problems[idx].description}
       </Markdown>
     </div>
-  );
+  )
 }
 
 export default function EditorLayout() {
-  const [players] = useState(['Player 1', 'Player 2', 'Player 3']);
+  const onLayout = (sizes: number[]) => {
+    document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`
+  }
+
+  const [players] = useState(["Player 1", "Player 2", "Player 3"])
 
   const [problems] = useState<Problem[]>([
     {
-      title: 'Reverse a Linked List',
+      title: "Reverse a Linked List",
       solved: true,
       description:
-        'Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.',
-      tags: ['Linked List'],
+        "Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.",
+      tags: ["Linked List"],
     },
     {
-      title: 'Invert a Binary Tree',
+      title: "Invert a Binary Tree",
       solved: false,
-      description: '',
-      tags: ['Binary Search Tree'],
+      description: "",
+      tags: ["Binary Search Tree"],
     },
-  ]);
+  ])
 
   return (
-    <div className="flex h-screen">
-      {/* Problem Statement Panel */}
-      <div className="flex-1 border-r border-gray-300 p-4">
-        <ProblemPanel problems={problems} />
-      </div>
-
-      {/* Editor Panel */}
-      <div className="flex-3 border-r border-gray-300 p-4">
-        <Editor
-          height="90vh"
-          width="40vw"
-          defaultLanguage="javascript"
-          defaultValue="// some comment"
-          options={{
-            minimap: { enabled: false },
-            scrollbar: {
-              vertical: 'hidden',
-            },
-            renderLineHighlight: 'none',
-            codeLens: false,
-            colorDecorators: false,
-            contextmenu: false,
-            guides: {
-              bracketPairs: false,
-              bracketPairsHorizontal: false,
-              highlightActiveBracketPair: false,
-              highlightActiveIndentation: false,
-              indentation: false,
-            },
-            hideCursorInOverviewRuler: true,
-            overviewRulerBorder: false,
-          }}
-        />
-        <div className="flex justify-between pt-3">
-          <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Language" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="python3">Python3</SelectItem>
-                <SelectItem value="c++">C++</SelectItem>
-              </SelectContent>
-            </Select>
+    <div className="flex h-full">
+      <PanelGroup
+        autoSaveId="persistence"
+        direction="horizontal"
+        onLayout={onLayout}
+      >
+        {/* Problem Statement Panel */}
+        <Panel className="p-4" defaultSize={30} minSize={20} maxSize={50}>
+          <ProblemPanel problems={problems} />
+        </Panel>
+        <PanelResizeHandle className="w-[1px] bg-gray-300" />
+        {/* Editor Panel */}
+        <Panel className="p-4" defaultSize={50} minSize={30}>
+          <Editor
+            height="90vh"
+            width="40vw"
+            defaultLanguage="javascript"
+            defaultValue="// some comment"
+            options={{
+              minimap: { enabled: false },
+              scrollbar: {
+                vertical: "hidden",
+              },
+              renderLineHighlight: "none",
+              codeLens: false,
+              colorDecorators: false,
+              contextmenu: false,
+              guides: {
+                bracketPairs: false,
+                bracketPairsHorizontal: false,
+                highlightActiveBracketPair: false,
+                highlightActiveIndentation: false,
+                indentation: false,
+              },
+              hideCursorInOverviewRuler: true,
+              overviewRulerBorder: false,
+            }}
+          />
+          <div className="flex justify-between pt-3">
+            <div>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="python3">Python3</SelectItem>
+                  <SelectItem value="c++">C++</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-row gap-2">
+              <Button variant="secondary">Run</Button>
+              <Button>Submit</Button>
+            </div>
           </div>
-          <div className="flex flex-row gap-2">
-            <Button variant="secondary">Run</Button>
-            <Button>Submit</Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Players Panel */}
-      <div className="flex-1 p-4">
-        <h2 className="text-xl font-semibold mb-4">Players in Room</h2>
-        <ul className="space-y-2">
-          {players.map((player, index) => (
-            <li
-              key={index}
-              className="bg-gray-200 p-4 rounded shadow text-center"
-            >
-              {player}
-            </li>
-          ))}
-        </ul>
-      </div>
+        </Panel>
+        <PanelResizeHandle className="w-[1px] bg-gray-300" />
+        {/* Players Panel */}
+        <Panel className="p-4" defaultSize={20} minSize={20} maxSize={40}>
+          <h2 className="text-xl font-semibold mb-4">Players in Room</h2>
+          <ul className="space-y-2">
+            {players.map((player, index) => (
+              <li
+                key={index}
+                className="bg-gray-200 p-4 rounded shadow text-center"
+              >
+                {player}
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </PanelGroup>
     </div>
-  );
+  )
 }
