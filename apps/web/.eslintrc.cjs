@@ -6,7 +6,6 @@
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  root: true,
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
@@ -23,7 +22,6 @@ module.exports = {
 
   // Base config
   extends: ["eslint:recommended"],
-
   overrides: [
     // React
     {
@@ -59,7 +57,7 @@ module.exports = {
         "import/internal-regex": "^~/",
         "import/resolver": {
           node: {
-            extensions: [".ts", ".tsx"],
+            extensions: [".js", ".jsx", ".ts", ".tsx"],
           },
           typescript: {
             alwaysTryTypes: true,
@@ -70,7 +68,7 @@ module.exports = {
         "plugin:@typescript-eslint/recommended",
         "plugin:import/recommended",
         "plugin:import/typescript",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
       ],
     },
 
@@ -82,4 +80,4 @@ module.exports = {
       },
     },
   ],
-};
+}
