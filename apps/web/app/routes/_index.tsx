@@ -23,7 +23,7 @@ export default function Index() {
           <Hash className="mr-2 size-4" />
           <p>Title</p>
         </div>
-        <div className="grow p-4">
+        <div className="grow p-4 flex flex-col-reverse">
           <div className="flex">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
@@ -41,7 +41,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-        <Input className="m-4" placeholder="Message #Problems" />
+        <Input className="mb-4 mx-4" placeholder="Message #Problems" />
       </main>
       <aside className="w-72 overflow-scroll">
         <div className="flex flex-col p-4">

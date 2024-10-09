@@ -18,6 +18,8 @@ import {
   SelectValue,
 } from "../components/ui/select"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
+import { json, useLoaderData } from "@remix-run/react"
+import axios from "axios"
 
 type CodeProps = React.ComponentPropsWithoutRef<"code">
 
@@ -90,7 +92,32 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
   )
 }
 
+type Language = {
+  id: number
+  name: string
+  is_archived: boolean
+}
+
+export async function loader() {
+  const response = await axios.get(
+    "https://judge0-ce.p.rapidapi.com/languages/all",
+    {
+      headers: {
+        "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+      },
+    }
+  )
+
+  const languages: Language[] = response.data.filter(
+    (item: Language) => item.is_archived
+  )
+
+  return json({ languages })
+}
+
 export default function EditorLayout() {
+  const { languages } = useLoaderData<typeof loader>()
+
   const onLayout = (sizes: number[]) => {
     document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`
   }
@@ -159,8 +186,13 @@ export default function EditorLayout() {
                   <SelectValue placeholder="Language" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="python3">Python3</SelectItem>
-                  <SelectItem value="c++">C++</SelectItem>
+                  {languages.map(item => {
+                    return (
+                      <SelectItem key={item.id} value={item.name}>
+                        {item.name}
+                      </SelectItem>
+                    )
+                  })}
                 </SelectContent>
               </Select>
             </div>
