@@ -1,3 +1,4 @@
+import { useNavigate } from "@remix-run/react"
 import { Hash, Plus } from "lucide-react"
 import {
   CHANNEL_TABS,
@@ -7,7 +8,9 @@ import {
 } from "../lib/constants"
 import { Button } from "./ui/button"
 
-export function SideBar() {
+export function ChannelsSideBar() {
+  const navigate = useNavigate()
+
   return (
     <aside className="w-60 overflow-scroll">
       <div className="flex flex-col p-4">
@@ -21,7 +24,12 @@ export function SideBar() {
         </Button>
         {NAVIGATION_TABS.map((item, index) => {
           return (
-            <Button key={index} className="justify-start" variant="ghost">
+            <Button
+              key={index}
+              className="justify-start"
+              variant="ghost"
+              onClick={() => navigate(`/channels/${item.id}`)}
+            >
               <item.icon className="mr-2 h-4 w-4" />
               {item.title}
             </Button>
@@ -30,7 +38,12 @@ export function SideBar() {
         <p className="my-2 text-sm font-semibold">INFORMATION</p>
         {INFORMATION_TABS.map((item, index) => {
           return (
-            <Button key={index} className="justify-start" variant="ghost">
+            <Button
+              key={index}
+              className="justify-start"
+              variant="ghost"
+              onClick={() => navigate(`/channels/${item.id}`)}
+            >
               <Hash className="mr-2 h-4 w-4" />
               {item.title}
             </Button>
@@ -39,7 +52,12 @@ export function SideBar() {
         <p className="my-2 text-sm font-semibold">GENERAL</p>
         {CHANNEL_TABS.map((item, index) => {
           return (
-            <Button key={index} className="justify-start" variant="ghost">
+            <Button
+              key={index}
+              className="justify-start"
+              variant="ghost"
+              onClick={() => navigate(`/channels/${item.id}`)}
+            >
               <Hash className="mr-2 h-4 w-4" />
               {item.title}
             </Button>
@@ -48,7 +66,12 @@ export function SideBar() {
         <p className="my-2 text-sm font-semibold">CODING</p>
         {CODING_TABS.map((item, index) => {
           return (
-            <Button key={index} className="justify-start" variant="ghost">
+            <Button
+              key={index}
+              className="justify-start"
+              variant="ghost"
+              onClick={() => navigate(`/channels/${item.id}`)}
+            >
               <Hash className="mr-2 h-4 w-4" />
               {item.title}
             </Button>

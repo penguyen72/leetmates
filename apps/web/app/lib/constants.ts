@@ -54,33 +54,41 @@ export const NAVIGATION_TABS = [
 
 export const INFORMATION_TABS = [
   {
+    id: "welcome",
     title: "welcome",
   },
   {
+    id: "announcements",
     title: "announcements",
   },
   {
+    id: "introductions",
     title: "introductions",
   },
   {
+    id: "suggestions",
     title: "suggestions",
   },
 ]
 
 export const CHANNEL_TABS = [
   {
+    id: "general",
     title: "general",
   },
   {
+    id: "random",
     title: "random",
   },
 ]
 
 export const CODING_TABS = [
   {
+    id: "system-design",
     title: "system-design",
   },
   {
+    id: "operating-systems",
     title: "operating-systems",
   },
 ]
