@@ -26,10 +26,11 @@ func main() {
         panic(err)
         }
     }()
-    // Send a ping to confirm a successful connection
+
     if err := db.Database("admin").RunCommand(context.TODO(), bson.D{{"ping", 1}}).Err(); err != nil {
         panic(err)
     }
+
     fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
 
     // Start the server on port 8080
