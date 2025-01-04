@@ -7,6 +7,7 @@
     "uninstall:web": "npm uninstall --workspace=@leetmates/web",
     "install:web": "npm install --workspace=@leetmates/web",
     "dev:web": "npm run dev --workspace=@leetmates/web",
+    "dev:api": "npm run dev --workspace=@leetmates/api",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "prepare": "husky"

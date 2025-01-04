@@ -19,7 +19,7 @@ import {
 } from "../components/ui/select"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import { json, useLoaderData } from "@remix-run/react"
-import axios from "axios"
+// import axios from "axios"
 
 type CodeProps = React.ComponentPropsWithoutRef<"code">
 
@@ -92,37 +92,54 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
   )
 }
 
-type Language = {
-  id: number
-  name: string
-  is_archived: boolean
-}
+// type Language = {
+//   id: number
+//   name: string
+//   is_archived: boolean
+// }
 
-export async function loader() {
-  const response = await axios.get(
-    "https://judge0-ce.p.rapidapi.com/languages/all",
-    {
-      headers: {
-        "X-RapidAPI-Key": process.env.RAPID_API_KEY,
-      },
-    }
-  )
+// export async function loader() {
+//   const response = await axios.get(
+//     "https://judge0-ce.p.rapidapi.com/languages/all",
+//     {
+//       headers: {
+//         "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+//       },
+//     }
+//   )
+//
+//   const languages: Language[] = response.data.filter(
+//     (item: Language) => item.is_archived
+//   )
+//
+//   return json({ languages })
+// }
 
-  const languages: Language[] = response.data.filter(
-    (item: Language) => item.is_archived
-  )
+export async function loader({ params }) {
+  const { id } = params
 
-  return json({ languages })
+  // Fetch the problem data using the ID
+  const response = await fetch(`${process.env.NESTJS_API_URL}/problems/${id}`)
+  if (!response.ok) {
+    throw new Response("Problem not found", { status: 404 })
+  }
+
+  const problem = await response.json()
+  return json(problem)
 }
 
 export default function EditorLayout() {
-  const { languages } = useLoaderData<typeof loader>()
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { problem } = useLoaderData()
+
+  //const { languages } = useLoaderData<typeof loader>()
 
   const onLayout = (sizes: number[]) => {
     document.cookie = `react-resizable-panels:layout=${JSON.stringify(sizes)}`
   }
 
   const [players] = useState(["Player 1", "Player 2", "Player 3"])
+  const [languages] = useState(["Python", "C++", "Java"])
 
   const [problems] = useState<Problem[]>([
     {
