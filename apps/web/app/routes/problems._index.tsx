@@ -1,4 +1,4 @@
-import { useLoaderData } from "@remix-run/react"
+import { useLoaderData, Link } from "@remix-run/react"
 
 export async function loader() {
   const response = await fetch(process.env.NESTJS_API_URL + "/problems")
@@ -12,11 +12,18 @@ export default function Problems() {
   return (
     <div className="w-full flex flex-col h-full p-12">
       <h1>List of problems</h1>
-      <ul>
+      <div className="flex flex-col">
         {problems.map(problem => (
-          <li key={problem._id}>{problem.title}</li>
+          <Link
+            to={{
+              pathname: `/problems/${problem._id}`,
+            }}
+            key={problem._id}
+          >
+            {problem.title}
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

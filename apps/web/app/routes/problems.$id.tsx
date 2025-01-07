@@ -24,11 +24,11 @@ import { json, useLoaderData } from "@remix-run/react"
 type CodeProps = React.ComponentPropsWithoutRef<"code">
 
 function ProblemPanel({ problems }: { problems: Problem[] }) {
+  console.log(problems)
   const [idx, setIdx] = useState(0)
 
   useEffect(() => {
-    console.log(idx)
-    console.log(problems[idx])
+    console.log("problem: " + problems)
   }, [idx, problems])
 
   return (
@@ -125,12 +125,13 @@ export async function loader({ params }) {
   }
 
   const problem = await response.json()
+
   return json(problem)
 }
 
 export default function EditorLayout() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { problem } = useLoaderData()
+  const problem = useLoaderData<typeof loader>()
 
   //const { languages } = useLoaderData<typeof loader>()
 
@@ -141,22 +142,6 @@ export default function EditorLayout() {
   const [players] = useState(["Player 1", "Player 2", "Player 3"])
   const [languages] = useState(["Python", "C++", "Java"])
 
-  const [problems] = useState<Problem[]>([
-    {
-      title: "Reverse a Linked List",
-      solved: true,
-      description:
-        "Given the `head` of a singly linked list, reverse the list, and return _the reversed list_.",
-      tags: ["Linked List"],
-    },
-    {
-      title: "Invert a Binary Tree",
-      solved: false,
-      description: "",
-      tags: ["Binary Search Tree"],
-    },
-  ])
-
   return (
     <div className="flex h-full">
       <PanelGroup
@@ -166,7 +151,7 @@ export default function EditorLayout() {
       >
         {/* Problem Statement Panel */}
         <Panel className="p-4" defaultSize={30} minSize={20} maxSize={50}>
-          <ProblemPanel problems={problems} />
+          <ProblemPanel problems={[problem]} />
         </Panel>
         <PanelResizeHandle className="w-[1px] bg-gray-300" />
         {/* Editor Panel */}

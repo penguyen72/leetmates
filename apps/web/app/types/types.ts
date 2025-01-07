@@ -1,6 +1,8 @@
 export interface Problem {
-  title: string;
-  solved: boolean;
-  description: string;
-  tags: string[];
+  _id: string
+  title: string
+  description: string
+  solved: boolean
+  difficulty: string
+  tags: string[]
 }
