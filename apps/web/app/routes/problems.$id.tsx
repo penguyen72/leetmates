@@ -38,26 +38,30 @@ function ProblemPanel({ problems }: { problems: Problem[] }) {
           <h1 className="font-bold text-xl">
             {problems.length > 0 ? problems[idx].title : ""}
           </h1>
-          <h3 className="text-zinc-400 text-sm">
-            Question {idx + 1} of {problems.length}
-          </h3>
+          {problems.length > 1 ? (
+            <h3 className="text-zinc-400 text-sm">
+              Question {idx + 1} of {problems.length}
+            </h3>
+          ) : null}
         </div>
-        <div className="flex flex-row gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIdx(Math.abs((idx - 1) % problems.length))}
-          >
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setIdx(Math.abs((idx + 1) % problems.length))}
-          >
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button>
-        </div>
+        {problems.length > 1 ? (
+          <div className="flex flex-row gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setIdx(Math.abs((idx - 1) % problems.length))}
+            >
+              <ChevronLeftIcon className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setIdx(Math.abs((idx + 1) % problems.length))}
+            >
+              <ChevronRightIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        ) : null}
       </div>
 
       <div className="flex flex-row py-3 gap-1 items-center">
@@ -190,8 +194,8 @@ export default function EditorLayout() {
                 <SelectContent>
                   {languages.map(item => {
                     return (
-                      <SelectItem key={item.id} value={item.name}>
-                        {item.name}
+                      <SelectItem key={item.id} value={item}>
+                        {item}
                       </SelectItem>
                     )
                   })}
