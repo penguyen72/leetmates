@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { ProblemsService } from './problems/problems.service';
 import { ProblemsController } from './problems/problems.controller';
 import { ProblemsModule } from './problems/problems.module';
+import { JudgeController } from './judge/judge.controller';
+import { JudgeModule } from './judge/judge.module';
 
 @Module({
   imports: [
@@ -13,7 +15,8 @@ import { ProblemsModule } from './problems/problems.module';
       isGlobal: true, // Makes the configuration accessible globally
     }),
     MongooseModule.forRoot(process.env.MONGO_URI),
-    ProblemsModule
+    ProblemsModule,
+    JudgeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
